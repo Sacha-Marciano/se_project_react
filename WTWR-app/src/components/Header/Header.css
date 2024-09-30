@@ -1,0 +1,35 @@
+.header {
+  font-family: "Cabinet Grotesk";
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.2;
+
+  display: flex;
+  align-items: center;
+}
+
+.header__logo {
+  width: 89px;
+  height: 40px;
+  margin-right: 24px;
+}
+
+.header__date-location {
+  margin-right: auto;
+}
+
+.header__button {
+  margin-right: 20px;
+  border: none;
+  background-color: transparent;
+  font: inherit;
+}
+
+.header__user-info {
+  margin-right: 12px;
+}
+
+.header__avatar {
+  width: 40px;
+  height: 40px;
+}

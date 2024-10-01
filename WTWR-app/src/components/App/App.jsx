@@ -2,23 +2,35 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "../Header/Header.jsx";
 import getInfo from "../../utils/weatherApi.js";
-import { position, APIkey } from "../../utils/constants.js";
-import MainApp from "../../components/MainApp/MainApp.jsx";
+import MainApp from "../MainApp/MainApp.jsx";
 import Footer from "../Footer/Footer.jsx";
+import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
+import ItemModal from "../ItemModal/ItemModal.jsx";
+
+import {
+  position,
+  APIkey,
+  defaultClothingItems,
+} from "../../utils/constants.js";
+import LoadingImage from "../../assets/Loading-image.png";
 
 function App() {
   const [info, setInfo] = useState({});
   const [isLoading, setLoading] = useState(true);
-  const [openPopupClass, setOpenPopup] = useState("");
+  const [selectedPopup, setOpenPopup] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
 
   const handleAddClick = () => {
-    setOpenPopup("popup_add_open");
+    setOpenPopup("popup-add");
   };
 
   const handleCardClick = (card) => {
-    setOpenPopup("popup_card_open");
+    setOpenPopup("popup-card");
     setSelectedCard(card);
+  };
+
+  const closePopup = () => {
+    setOpenPopup("");
   };
 
   useEffect(() => {
@@ -34,14 +46,77 @@ function App() {
   }, []);
 
   return isLoading ? (
-    <h1>LOADING, PLEASE WAIT</h1> //change to loading image
+    <img className="app__loading" src={LoadingImage} alt="Loading image" />
   ) : (
     <div className="app__container">
       <div className="app__content">
         <Header info={info} handler={handleAddClick} />
-        <MainApp info={info} handler={handleCardClick} />
+        <MainApp
+          info={info}
+          handler={handleCardClick}
+          settingArray={defaultClothingItems}
+        />
         <Footer />
       </div>
+      <ModalWithForm
+        title="New garnment"
+        isOpen={selectedPopup === "popup-add"}
+        closePopup={closePopup}
+      >
+        <label className="modal__label">
+          Name
+          <input
+            className="modal__input"
+            id="name"
+            placeholder="Name"
+            type="text"
+          />
+        </label>
+        <label className="modal__label">
+          Image
+          <input
+            className="modal__input"
+            id="imageUrl"
+            placeholder="Image Url"
+            type="url"
+          />
+        </label>
+        <fieldset className="modal__fieldset">
+          <legend className="modal__legend">Select the weather type:</legend>
+          <label className="modal__label_type_radio">
+            <input
+              className="modal__input_type_radio"
+              id="hot"
+              name="weather-type"
+              type="radio"
+            />
+            Hot
+          </label>
+          <label className="modal__label_type_radio">
+            <input
+              className="modal__input_type_radio"
+              id="warm"
+              name="weather-type"
+              type="radio"
+            />
+            Warm
+          </label>
+          <label className="modal__label_type_radio">
+            <input
+              className="modal__input_type_radio"
+              id="cold"
+              name="weather-type"
+              type="radio"
+            />
+            Cold
+          </label>
+        </fieldset>
+      </ModalWithForm>
+      <ItemModal
+        isOpen={selectedPopup === "popup-card"}
+        selectedCard={selectedCard}
+        closePopup={closePopup}
+      />
     </div>
   );
 }

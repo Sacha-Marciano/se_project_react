@@ -12,14 +12,16 @@ const getInfo = ({ latitude, longitude }, APIkey) => {
     .then((data) => {
       const info = {};
       info.location = data.name;
-      info.temp = data.main.temp;
+      info.temp = Math.round(data.main.temp);
       info.condition = data.weather[0].main;
-      info.isDay =
-        data.sys.sunrise * 1000 < Date.now() &&
-        Date.now() < data.sys.sunset * 1000;
+      info.isDay = getDay(data.sys, Date.now());
       info.type = getType(data.main.temp);
       return info;
     });
+};
+
+const getDay = (data, now) => {
+  return data.sunrise * 1000 < now && now < data.sunset * 1000;
 };
 
 const getType = (temperature) => {

@@ -4,4 +4,6 @@
   font-family: "Cabinet Grotesk";
   font-size: 16px;
   line-height: 1.2;
+  position: absolute;
+  bottom: 0px;
 }

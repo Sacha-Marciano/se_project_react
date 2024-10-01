@@ -8,7 +8,7 @@ function WeatherCard({ info }) {
 
   return (
     <section className="weather-card">
-      <p className="weather-card__temp">{Math.round(info.temp)} &deg;F</p>
+      <p className="weather-card__temp">{info.temp} &deg;F</p>
       <img
         className="weather-card__image"
         src={actualCondition[0].src}

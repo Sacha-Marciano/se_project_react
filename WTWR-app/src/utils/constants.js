@@ -74,6 +74,7 @@ export const weatherConditions = [
     src: stormyNight,
   },
 ];
+
 export const defaultClothingItems = [
   {
     _id: 0,
@@ -120,22 +121,23 @@ export const position = {
 
 export const APIkey = "cf7194b2a2d732dd6e31ed6c404edd07";
 
-const positionTelAviv = {
-  latitude: 32.0853,
-  longitude: 34.781769,
-};
+// Different cities coordonates
+// const positionTelAviv = {
+//   latitude: 32.0853,
+//   longitude: 34.781769,
+// };
 
-const positionNewYork = {
-  latitude: 40.712776,
-  longitude: -74.005974,
-};
+// const positionNewYork = {
+//   latitude: 40.712776,
+//   longitude: -74.005974,
+// };
 
-const positionSydney = {
-  latitude: -33.86882,
-  longitude: 151.20929,
-};
+// const positionSydney = {
+//   latitude: -33.86882,
+//   longitude: 151.20929,
+// };
 
-const positionLondon = {
-  latitude: 51.507351,
-  longitude: -0.127758,
-};
+// const positionLondon = {
+//   latitude: 51.507351,
+//   longitude: -0.127758,
+// };

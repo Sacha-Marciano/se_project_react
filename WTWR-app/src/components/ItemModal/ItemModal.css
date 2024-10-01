@@ -1,0 +1,43 @@
+.modal-item__button_type_close {
+  height: 20px;
+  width: 20px;
+
+  background-image: url(../../assets/CloseButton.png);
+  background-color: transparent;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+
+  border: 0;
+}
+
+.modal-item__content {
+  background-color: #fff;
+  height: 610px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.modal-item__image {
+  border-radius: 15px;
+}
+
+.modal-item__info {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 20px 0 32px 32px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-item__name {
+  margin: 0;
+  padding: 0;
+}
+
+.modal-item__weather-type {
+  margin: 0;
+  padding: 0;
+}

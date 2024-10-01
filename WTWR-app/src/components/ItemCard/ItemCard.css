@@ -11,9 +11,9 @@
   color: #00000099;
   font-size: 16px;
   line-height: 20px;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 4px;
-  border-color: #0000004d;
+  border-color: rgba(0, 0, 0, 0.4);
   padding: 2px 12px;
 }
 

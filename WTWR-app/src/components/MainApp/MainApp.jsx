@@ -1,9 +1,8 @@
 import "./MainApp.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
 import ItemCard from "../ItemCard/ItemCard.jsx";
-import { defaultClothingItems } from "../../utils/constants.js";
 
-function MainApp({ info, handler }) {
+function MainApp({ info, handler, settingArray }) {
   return (
     <main className="main-app">
       <WeatherCard info={info} />
@@ -11,7 +10,7 @@ function MainApp({ info, handler }) {
         Today is {info.temp} &deg;F / You may want to wear :
       </p>
       <ul className="main-app_list">
-        {defaultClothingItems
+        {settingArray
           .filter((item) => {
             return item.weather === info.type;
           })

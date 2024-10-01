@@ -1,4 +1,8 @@
 .app__container {
   width: 100%;
+  max-width: 1440px;
   padding: 32px 40px 24px;
+  box-sizing: border-box;
+  font-family: "Cabinet Grotesk", Arial, sans-serif;
+  color: black;
 }

@@ -1,32 +1,38 @@
 .header {
-  font-family: "Cabinet Grotesk";
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 1.2;
-
   display: flex;
   align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 0 0 28px;
 }
 
 .header__logo {
-  width: 89px;
-  height: 40px;
-  margin-right: 24px;
+  margin-right: 16px;
 }
 
 .header__date-location {
-  margin-right: auto;
+  margin: 0 auto 0 0;
 }
 
-.header__button {
-  margin-right: 20px;
+.header__add-button {
   border: none;
   background-color: transparent;
-  font: inherit;
+  padding: 0;
+  font-family: "Cabinet Grotesk", Arial, sans-serif;
+  color: black;
+  font-weight: bold;
 }
 
 .header__user-info {
-  margin-right: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 0 20px;
+}
+
+.header__username {
+  margin: 0;
 }
 
 .header__avatar {

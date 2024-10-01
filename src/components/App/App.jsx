@@ -70,6 +70,7 @@ function App() {
             id="name"
             placeholder="Name"
             type="text"
+            required
           />
         </label>
         <label className="modal__label">
@@ -79,6 +80,7 @@ function App() {
             id="imageUrl"
             placeholder="Image Url"
             type="url"
+            required
           />
         </label>
         <fieldset className="modal__fieldset">
@@ -89,6 +91,7 @@ function App() {
               id="hot"
               name="weather-type"
               type="radio"
+              required
             />
             Hot
           </label>
@@ -98,6 +101,7 @@ function App() {
               id="warm"
               name="weather-type"
               type="radio"
+              required
             />
             Warm
           </label>
@@ -107,6 +111,7 @@ function App() {
               id="cold"
               name="weather-type"
               type="radio"
+              required
             />
             Cold
           </label>

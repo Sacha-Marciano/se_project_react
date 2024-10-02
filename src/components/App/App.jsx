@@ -39,10 +39,10 @@ function App() {
       .then((obj) => {
         setInfo(obj);
       })
-      .then(() => {
+      .catch((err) => console.error(err))
+      .finally(() => {
         setLoading(false);
-      })
-      .catch((err) => console.error(err));
+      });
   }, []);
 
   return isLoading ? (

@@ -8,7 +8,7 @@ function ItemModal({ isOpen, selectedCard, closePopup }) {
           className="modal-item__button_type_close"
           type="button"
           onClick={closePopup}
-        ></button>
+        />
         <img
           className="modal-item__image"
           src={selectedCard.link}

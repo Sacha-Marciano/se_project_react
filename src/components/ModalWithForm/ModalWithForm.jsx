@@ -9,7 +9,7 @@ function ModalWithForm({ children, title, closePopup, isOpen }) {
           className="modal__button_type_close"
           type="button"
           onClick={closePopup}
-        ></button>
+        />
         <form className="modal__form">
           {children}
           <button type="submit" className="modal__button_type_submit">

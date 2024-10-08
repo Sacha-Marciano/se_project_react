@@ -1,0 +1,60 @@
+.toggle-switch__checkbox {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.toggle-switch__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 56px;
+  height: 28px;
+  background: #fff;
+  border-radius: 20px;
+  border: 2px solid gray;
+  position: relative;
+  transition: background-color 0.2s;
+  margin: 0 20px 0 0;
+  font-size: 14px;
+}
+
+.toggle-switch__label:hover {
+  border: 2px solid #000;
+}
+
+.toggle-switch__button {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 45px;
+  transition: 0.2s;
+  background: #000;
+  box-sizing: border-box;
+}
+
+.toggle-switch__checkbox:checked
+  + .toggle-switch__label
+  .toggle-switch__button {
+  left: calc(100%);
+  transform: translateX(-100%);
+}
+
+.toggle-switch__unit {
+  height: 28px;
+  width: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.toggle-switch__unit_active {
+  color: #fff;
+  opacity: 1;
+}

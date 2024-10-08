@@ -14,11 +14,14 @@ import {
 } from "../../utils/constants.js";
 import LoadingImage from "../../assets/Loading-image.png";
 
+import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext.js";
+
 function App() {
   const [info, setInfo] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [selectedPopup, setOpenPopup] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
+  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
 
   const handleAddClick = () => {
     setOpenPopup("popup-add");
@@ -45,84 +48,93 @@ function App() {
       });
   }, []);
 
+  const handleToggleSwitchChange = () => {
+    currentTemperatureUnit === "F"
+      ? setCurrentTemperatureUnit("C")
+      : setCurrentTemperatureUnit("F");
+  };
   return isLoading ? (
     <img className="app__loading" src={LoadingImage} alt="Loading image" />
   ) : (
-    <div className="app__container">
-      <div className="app__content">
-        <Header info={info} handler={handleAddClick} />
-        <MainApp
-          info={info}
-          handler={handleCardClick}
-          settingArray={defaultClothingItems}
+    <CurrentTemperatureUnitContext.Provider
+      value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+    >
+      <div className="app__container">
+        <div className="app__content">
+          <Header info={info} handler={handleAddClick} />
+          <MainApp
+            info={info}
+            handler={handleCardClick}
+            settingArray={defaultClothingItems}
+          />
+          <Footer />
+        </div>
+        <ModalWithForm
+          title="New garnment"
+          isOpen={selectedPopup === "popup-add"}
+          closePopup={closePopup}
+        >
+          <label className="modal__label">
+            Name
+            <input
+              className="modal__input"
+              id="name"
+              placeholder="Name"
+              type="text"
+              required
+            />
+          </label>
+          <label className="modal__label">
+            Image
+            <input
+              className="modal__input"
+              id="imageUrl"
+              placeholder="Image Url"
+              type="url"
+              required
+            />
+          </label>
+          <fieldset className="modal__fieldset">
+            <legend className="modal__legend">Select the weather type:</legend>
+            <label className="modal__label_type_radio">
+              <input
+                className="modal__input_type_radio"
+                id="hot"
+                name="weather-type"
+                type="radio"
+                required
+              />
+              Hot
+            </label>
+            <label className="modal__label_type_radio">
+              <input
+                className="modal__input_type_radio"
+                id="warm"
+                name="weather-type"
+                type="radio"
+                required
+              />
+              Warm
+            </label>
+            <label className="modal__label_type_radio">
+              <input
+                className="modal__input_type_radio"
+                id="cold"
+                name="weather-type"
+                type="radio"
+                required
+              />
+              Cold
+            </label>
+          </fieldset>
+        </ModalWithForm>
+        <ItemModal
+          isOpen={selectedPopup === "popup-card"}
+          selectedCard={selectedCard}
+          closePopup={closePopup}
         />
-        <Footer />
       </div>
-      <ModalWithForm
-        title="New garnment"
-        isOpen={selectedPopup === "popup-add"}
-        closePopup={closePopup}
-      >
-        <label className="modal__label">
-          Name
-          <input
-            className="modal__input"
-            id="name"
-            placeholder="Name"
-            type="text"
-            required
-          />
-        </label>
-        <label className="modal__label">
-          Image
-          <input
-            className="modal__input"
-            id="imageUrl"
-            placeholder="Image Url"
-            type="url"
-            required
-          />
-        </label>
-        <fieldset className="modal__fieldset">
-          <legend className="modal__legend">Select the weather type:</legend>
-          <label className="modal__label_type_radio">
-            <input
-              className="modal__input_type_radio"
-              id="hot"
-              name="weather-type"
-              type="radio"
-              required
-            />
-            Hot
-          </label>
-          <label className="modal__label_type_radio">
-            <input
-              className="modal__input_type_radio"
-              id="warm"
-              name="weather-type"
-              type="radio"
-              required
-            />
-            Warm
-          </label>
-          <label className="modal__label_type_radio">
-            <input
-              className="modal__input_type_radio"
-              id="cold"
-              name="weather-type"
-              type="radio"
-              required
-            />
-            Cold
-          </label>
-        </fieldset>
-      </ModalWithForm>
-      <ItemModal
-        isOpen={selectedPopup === "popup-card"}
-        selectedCard={selectedCard}
-        closePopup={closePopup}
-      />
-    </div>
+    </CurrentTemperatureUnitContext.Provider>
   );
 }
 

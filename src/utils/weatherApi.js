@@ -12,7 +12,9 @@ const getInfo = ({ latitude, longitude }, APIkey) => {
     .then((data) => {
       const info = {};
       info.location = data.name;
-      info.temp = Math.round(data.main.temp);
+      info.temp = [];
+      info.temp.F = `${Math.round(data.main.temp)} \u00B0F`;
+      info.temp.C = `${Math.round(((data.main.temp - 32) * 5) / 9)} \u00B0C`;
       info.condition = data.weather[0].main;
       info.isDay = getDay(data.sys, Date.now());
       info.type = getType(data.main.temp);

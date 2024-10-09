@@ -1,7 +1,11 @@
+//import React properties
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
+//import styles
 import "./App.css";
+
+//import components
 import Header from "../Header/Header.jsx";
 import getInfo from "../../utils/weatherApi.js";
 import MainApp from "../MainApp/MainApp.jsx";
@@ -9,38 +13,71 @@ import Footer from "../Footer/Footer.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
 import Profile from "../Profile/Profile.jsx";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
+import PageNotFound from "../PageNotFound/PageNotFound.jsx";
 
-import { position, APIkey } from "../../utils/constants.js";
+//Import context
+import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext.js";
+
+//Other imports
+import { position, APIkey } from "../../utils/constants.js"; //For WeatherApi call
+import LoadingImage from "../../assets/Loading-image.png"; //Loading image
 import {
   getServerItems,
   addServerItem,
   deleteServerItem,
-} from "../../utils/api.js";
-import LoadingImage from "../../assets/Loading-image.png";
-
-import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext.js";
+} from "../../utils/api.js"; //API calls to local server
 
 function App() {
+  //Hooks
   const [info, setInfo] = useState({});
   const [isLoading, setLoading] = useState(true);
-  const [selectedPopup, setOpenPopup] = useState("");
+  const [selectedPopup, setSelectedPopup] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothesList, setClothesList] = useState([]);
 
+  //Functions up-lifted for components
   const handleAddClick = () => {
-    setOpenPopup("popup-add");
+    setSelectedPopup("popup-add");
   };
-
   const handleCardClick = (card) => {
-    setOpenPopup("popup-card");
+    setSelectedPopup("popup-card");
     setSelectedCard(card);
   };
-
   const closePopup = () => {
-    setOpenPopup("");
+    setSelectedPopup("");
+  };
+  const handleToggleSwitchChange = () => {
+    currentTemperatureUnit === "F"
+      ? setCurrentTemperatureUnit("C")
+      : setCurrentTemperatureUnit("F");
   };
 
+  //Sends POST request to server and updates card's list
+  const handleAddItemSubmit = (newName, newUrl, newType) => {
+    const newCard = {
+      _id: clothesList.length,
+      name: newName,
+      weather: newType,
+      imageUrl: newUrl,
+    };
+    addServerItem(newCard).then(setClothesList([newCard, ...clothesList]));
+  };
+
+  //Sends DELETE request to server and updates card's list
+  const handleCardDelete = () => {
+    deleteServerItem(selectedCard._id)
+      .then(
+        setClothesList(
+          clothesList.filter((item) => {
+            return item._id !== selectedCard._id;
+          })
+        )
+      )
+      .finally(closePopup());
+  };
+
+  //On start/refresh
   useEffect(() => {
     setLoading(true);
     getInfo(position, APIkey)
@@ -59,34 +96,6 @@ function App() {
     });
   }, []);
 
-  const handleToggleSwitchChange = () => {
-    currentTemperatureUnit === "F"
-      ? setCurrentTemperatureUnit("C")
-      : setCurrentTemperatureUnit("F");
-  };
-
-  const handleAddItemSubmit = (newName, newUrl, newType) => {
-    const newCard = {
-      _id: clothesList.length,
-      name: newName,
-      weather: newType,
-      imageUrl: newUrl,
-    };
-    addServerItem(newCard).then(setClothesList([newCard, ...clothesList]));
-  };
-
-  const handleCardDelete = () => {
-    deleteServerItem(selectedCard._id)
-      .then(
-        setClothesList(
-          clothesList.filter((item) => {
-            return item._id !== selectedCard._id;
-          })
-        )
-      )
-      .finally(closePopup());
-  };
-
   return isLoading ? (
     <img className="app__loading" src={LoadingImage} alt="Loading image" />
   ) : (
@@ -97,6 +106,7 @@ function App() {
         <div className="app__content">
           <Header info={info} handler={handleAddClick} />
           <Routes>
+            <Route path="*" element={<PageNotFound />} />
             <Route
               path="/"
               element={
@@ -133,5 +143,3 @@ function App() {
 }
 
 export default App;
-
-//         {/* <ModalWithForm isActive={openPopupClass} /> */}

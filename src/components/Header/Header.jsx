@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 
 import "./Header.css";
+
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+
 import logo from "../../assets/logo.png";
 import avatar from "../../assets/avatar.png";
-import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 
 function Header({ info, handler }) {
   const currentDate = new Date().toLocaleString("default", {
@@ -14,7 +16,7 @@ function Header({ info, handler }) {
   return (
     <header className="header">
       <Link to="/">
-        <img className="header__logo" src={logo} alt="Logo" />{" "}
+        <img className="header__logo" src={logo} alt="Logo" />
       </Link>
       <p className="header__date-location">
         {currentDate}, {info.location}

@@ -1,7 +1,10 @@
-import "./WeatherCard.css";
-import { weatherConditions } from "../../utils/constants";
-import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { useContext } from "react";
+
+import "./WeatherCard.css";
+
+import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
+
+import { weatherConditions } from "../../utils/constants";
 
 function WeatherCard({ info }) {
   const actualCondition = weatherConditions.filter((item) => {

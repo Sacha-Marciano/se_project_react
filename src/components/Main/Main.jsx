@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext.js";
 
-import "./MainApp.css";
+import "./Main.css";
 
-import WeatherCard from "../WeatherCard/WeatherCard";
+import WeatherCard from "../WeatherCard/WeatherCard.jsx";
 import ItemCard from "../ItemCard/ItemCard.jsx";
 
-function MainApp({ info, handler, settingArray }) {
+function Main({ info, handler, settingArray }) {
   const currentTempUnit = useContext(
     CurrentTemperatureUnitContext
   ).currentTemperatureUnit;
@@ -32,4 +32,4 @@ function MainApp({ info, handler, settingArray }) {
   );
 }
 
-export default MainApp;
+export default Main;

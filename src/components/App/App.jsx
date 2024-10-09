@@ -8,12 +8,11 @@ import "./App.css";
 //import components
 import Header from "../Header/Header.jsx";
 import getInfo from "../../utils/weatherApi.js";
-import MainApp from "../MainApp/MainApp.jsx";
+import Main from "../Main/Main.jsx";
 import Footer from "../Footer/Footer.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
 import Profile from "../Profile/Profile.jsx";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
-import PageNotFound from "../PageNotFound/PageNotFound.jsx";
 
 //Import context
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext.js";
@@ -109,7 +108,7 @@ function App() {
             <Route
               path="/"
               element={
-                <MainApp
+                <Main
                   info={info}
                   handler={handleCardClick}
                   settingArray={clothesList}

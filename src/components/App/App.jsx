@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+
 import "./App.css";
 import Header from "../Header/Header.jsx";
 import getInfo from "../../utils/weatherApi.js";
@@ -6,6 +8,8 @@ import MainApp from "../MainApp/MainApp.jsx";
 import Footer from "../Footer/Footer.jsx";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
+import Profile from "../Profile/Profile.jsx";
+import AddItemModal from "../AddItemModal/AddItemModal.jsx";
 
 import {
   position,
@@ -62,11 +66,27 @@ function App() {
       <div className="app__container">
         <div className="app__content">
           <Header info={info} handler={handleAddClick} />
-          <MainApp
-            info={info}
-            handler={handleCardClick}
-            settingArray={defaultClothingItems}
-          />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <MainApp
+                  info={info}
+                  handler={handleCardClick}
+                  settingArray={defaultClothingItems}
+                />
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <Profile
+                  settingArray={defaultClothingItems}
+                  handler={handleCardClick}
+                />
+              }
+            />
+          </Routes>
           <Footer />
         </div>
         <ModalWithForm

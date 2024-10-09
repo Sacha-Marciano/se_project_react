@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import "./Header.css";
 import logo from "../../assets/logo.png";
 import avatar from "../../assets/avatar.png";
@@ -11,7 +13,9 @@ function Header({ info, handler }) {
 
   return (
     <header className="header">
-      <img className="header__logo" src={logo} alt="Logo" />
+      <Link to="/">
+        <img className="header__logo" src={logo} alt="Logo" />{" "}
+      </Link>
       <p className="header__date-location">
         {currentDate}, {info.location}
       </p>
@@ -21,7 +25,9 @@ function Header({ info, handler }) {
           + Add clothes
         </button>
         <div className="header__user-info">
-          <p className="header__username">Terrence Tegegne</p>
+          <Link to="/profile" className="header__link">
+            <p className="header__username">Terrence Tegegne</p>
+          </Link>
           <img className="header__avatar" src={avatar} alt="Avatar" />
         </div>
       </div>

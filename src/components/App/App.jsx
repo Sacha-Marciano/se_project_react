@@ -10,11 +10,12 @@ import ItemModal from "../ItemModal/ItemModal.jsx";
 import Profile from "../Profile/Profile.jsx";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
 
+import { position, APIkey } from "../../utils/constants.js";
 import {
-  position,
-  APIkey,
-  defaultClothingItems,
-} from "../../utils/constants.js";
+  getServerItems,
+  addServerItem,
+  deleteServerItem,
+} from "../../utils/api.js";
 import LoadingImage from "../../assets/Loading-image.png";
 
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext.js";
@@ -25,7 +26,7 @@ function App() {
   const [selectedPopup, setOpenPopup] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
-  const [clothesList, setClothesList] = useState(defaultClothingItems);
+  const [clothesList, setClothesList] = useState([]);
 
   const handleAddClick = () => {
     setOpenPopup("popup-add");
@@ -52,6 +53,12 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    getServerItems().then((data) => {
+      setClothesList(data);
+    });
+  }, []);
+
   const handleToggleSwitchChange = () => {
     currentTemperatureUnit === "F"
       ? setCurrentTemperatureUnit("C")
@@ -65,16 +72,19 @@ function App() {
       weather: newType,
       imageUrl: newUrl,
     };
-    setClothesList([newCard, ...clothesList]);
+    addServerItem(newCard).then(setClothesList([newCard, ...clothesList]));
   };
 
   const handleCardDelete = () => {
-    setClothesList(
-      clothesList.filter((item) => {
-        return item._id !== selectedCard._id;
-      })
-    );
-    closePopup();
+    deleteServerItem(selectedCard._id)
+      .then(
+        setClothesList(
+          clothesList.filter((item) => {
+            return item._id !== selectedCard._id;
+          })
+        )
+      )
+      .finally(closePopup());
   };
 
   return isLoading ? (

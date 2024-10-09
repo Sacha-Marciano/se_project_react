@@ -63,10 +63,18 @@ function App() {
       _id: clothesList.length,
       name: newName,
       weather: newType,
-      link: newUrl,
+      imageUrl: newUrl,
     };
     setClothesList([newCard, ...clothesList]);
-    console.log(clothesList);
+  };
+
+  const handleCardDelete = () => {
+    setClothesList(
+      clothesList.filter((item) => {
+        return item._id !== selectedCard._id;
+      })
+    );
+    closePopup();
   };
 
   return isLoading ? (
@@ -107,6 +115,7 @@ function App() {
           isOpen={selectedPopup === "popup-card"}
           selectedCard={selectedCard}
           closePopup={closePopup}
+          deleteCard={handleCardDelete}
         />
       </div>
     </CurrentTemperatureUnitContext.Provider>

@@ -26,14 +26,17 @@
 .modal-item__info {
   font-size: 20px;
   font-weight: bold;
-  padding: 20px 0 32px 32px;
+  padding: 20px 32px 32px;
 
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  position: relative;
 }
 
 .modal-item__name {
+  max-width: 135px;
   margin: 0;
   padding: 0;
 }
@@ -41,4 +44,26 @@
 .modal-item__weather-type {
   margin: 0;
   padding: 0;
+}
+
+.modal-item__delete {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  font-family: "Cabinet Grotesk", Arial, sans-serif;
+  color: #ff0000;
+  font-weight: bold;
+  cursor: pointer;
+
+  position: absolute;
+  top: 20px;
+  right: 32px;
+}
+
+@media screen and (max-width: 505px) {
+  .modal-item__image {
+    border-radius: 15px;
+    width: 300px;
+    height: 300px;
+  }
 }

@@ -13,13 +13,14 @@
 
 .modal-item__content {
   background-color: #fff;
-  height: 610px;
   border-radius: 15px;
   position: relative;
 }
 
 .modal-item__image {
   border-radius: 15px;
+  width: 498px;
+  height: 498px;
 }
 
 .modal-item__info {

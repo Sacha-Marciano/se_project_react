@@ -6,7 +6,6 @@ import Header from "../Header/Header.jsx";
 import getInfo from "../../utils/weatherApi.js";
 import MainApp from "../MainApp/MainApp.jsx";
 import Footer from "../Footer/Footer.jsx";
-import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
 import Profile from "../Profile/Profile.jsx";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
@@ -26,6 +25,7 @@ function App() {
   const [selectedPopup, setOpenPopup] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const [clothesList, setClothesList] = useState(defaultClothingItems);
 
   const handleAddClick = () => {
     setOpenPopup("popup-add");
@@ -57,6 +57,18 @@ function App() {
       ? setCurrentTemperatureUnit("C")
       : setCurrentTemperatureUnit("F");
   };
+
+  const handleAddItemSubmit = (newName, newUrl, newType) => {
+    const newCard = {
+      _id: clothesList.length,
+      name: newName,
+      weather: newType,
+      link: newUrl,
+    };
+    setClothesList([newCard, ...clothesList]);
+    console.log(clothesList);
+  };
+
   return isLoading ? (
     <img className="app__loading" src={LoadingImage} alt="Loading image" />
   ) : (
@@ -73,81 +85,24 @@ function App() {
                 <MainApp
                   info={info}
                   handler={handleCardClick}
-                  settingArray={defaultClothingItems}
+                  settingArray={clothesList}
                 />
               }
             />
             <Route
               path="/profile"
               element={
-                <Profile
-                  settingArray={defaultClothingItems}
-                  handler={handleCardClick}
-                />
+                <Profile settingArray={clothesList} handler={handleCardClick} />
               }
             />
           </Routes>
           <Footer />
         </div>
-        <ModalWithForm
-          title="New garnment"
-          isOpen={selectedPopup === "popup-add"}
-          closePopup={closePopup}
-        >
-          <label className="modal__label">
-            Name
-            <input
-              className="modal__input"
-              id="name"
-              placeholder="Name"
-              type="text"
-              required
-            />
-          </label>
-          <label className="modal__label">
-            Image
-            <input
-              className="modal__input"
-              id="imageUrl"
-              placeholder="Image Url"
-              type="url"
-              required
-            />
-          </label>
-          <fieldset className="modal__fieldset">
-            <legend className="modal__legend">Select the weather type:</legend>
-            <label className="modal__label_type_radio">
-              <input
-                className="modal__input_type_radio"
-                id="hot"
-                name="weather-type"
-                type="radio"
-                required
-              />
-              Hot
-            </label>
-            <label className="modal__label_type_radio">
-              <input
-                className="modal__input_type_radio"
-                id="warm"
-                name="weather-type"
-                type="radio"
-                required
-              />
-              Warm
-            </label>
-            <label className="modal__label_type_radio">
-              <input
-                className="modal__input_type_radio"
-                id="cold"
-                name="weather-type"
-                type="radio"
-                required
-              />
-              Cold
-            </label>
-          </fieldset>
-        </ModalWithForm>
+        <AddItemModal
+          selectedPopup={selectedPopup}
+          handler={closePopup}
+          onAddItem={handleAddItemSubmit}
+        />
         <ItemModal
           isOpen={selectedPopup === "popup-card"}
           selectedCard={selectedCard}

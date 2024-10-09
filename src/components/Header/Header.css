@@ -28,6 +28,11 @@
   color: #000;
   font-weight: bold;
   cursor: pointer;
+  transition: opacity linear 0.2s;
+}
+
+.header__add-button:hover {
+  opacity: 0.5;
 }
 
 .header__user-info {
@@ -40,6 +45,11 @@
 
 .header__username {
   margin: 0;
+  transition: opacity linear 0.2s;
+}
+
+.header__username:hover {
+  opacity: 0.5;
 }
 
 .header__avatar {

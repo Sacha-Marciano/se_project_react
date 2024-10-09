@@ -16,17 +16,17 @@ const getInfo = ({ latitude, longitude }, APIkey) => {
       info.temp.F = `${Math.round(data.main.temp)} \u00B0F`;
       info.temp.C = `${Math.round(((data.main.temp - 32) * 5) / 9)} \u00B0C`;
       info.condition = data.weather[0].main;
-      info.isDay = getDay(data.sys, Date.now());
-      info.type = getType(data.main.temp);
+      info.isDay = _getDay(data.sys, Date.now());
+      info.type = _getType(data.main.temp);
       return info;
     });
 };
 
-const getDay = (data, now) => {
+const _getDay = (data, now) => {
   return data.sunrise * 1000 < now && now < data.sunset * 1000;
 };
 
-const getType = (temperature) => {
+const _getType = (temperature) => {
   if (temperature > 86) {
     return "hot";
   } else if (temperature > 66 && temperature < 86) {

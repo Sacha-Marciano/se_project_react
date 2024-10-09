@@ -11,7 +11,7 @@ import snowyNight from "../assets/SnowyNight.png";
 import foggyDay from "../assets/FoggyDay.png";
 import foggyNight from "../assets/FoggyNight.png";
 
-export const weatherConditions = [
+const weatherConditions = [
   {
     day: true,
     condition: "Clear",
@@ -75,13 +75,14 @@ export const weatherConditions = [
   },
 ];
 
-export const position = {
+const position = {
   latitude: 32.0853,
   longitude: 34.781769,
 };
 
-export const APIkey = "cf7194b2a2d732dd6e31ed6c404edd07";
+const APIkey = "cf7194b2a2d732dd6e31ed6c404edd07";
 
+export { APIkey, position, weatherConditions };
 // Different cities coordonates
 // const positionTelAviv = {
 //   latitude: 32.0853,

@@ -16,16 +16,16 @@ function AddItemModal({ selectedPopup, handler, onAddItem }) {
     setType(evt.target.id);
   };
 
-  const resetInputs = () => {
+  const _resetInputs = () => {
     setName("");
     setUrl("");
   };
 
-  const handleSubmit = (evt) => {
+  const _handleSubmit = (evt) => {
     evt.preventDefault();
     onAddItem(name, url, type);
     handler(); // close popup
-    resetInputs();
+    _resetInputs();
     evt.target.reset();
   };
 
@@ -34,7 +34,7 @@ function AddItemModal({ selectedPopup, handler, onAddItem }) {
       title="New garnment"
       closePopup={handler}
       isOpen={selectedPopup === "popup-add"}
-      onSubmit={handleSubmit}
+      onSubmit={_handleSubmit}
     >
       <label className="modal__label">
         Name

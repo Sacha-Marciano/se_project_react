@@ -120,7 +120,11 @@ function App() {
             <Route
               path="/profile"
               element={
-                <Profile settingArray={clothesList} handler={handleCardClick} />
+                <Profile
+                  settingArray={clothesList}
+                  handler={handleCardClick}
+                  onClick={handleAddClick}
+                />
               }
             />
           </Routes>

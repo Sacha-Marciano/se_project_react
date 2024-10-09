@@ -22,8 +22,12 @@
   padding: 0;
   font-family: "Cabinet Grotesk", Arial, sans-serif;
   color: #000;
-  opacity: 0.5;
   cursor: pointer;
+  transition: opacity linear 0.2s;
+}
+
+.clothes-section__add:hover {
+  opacity: 0.5;
 }
 
 .clothes-section__list {

@@ -106,7 +106,6 @@ function App() {
         <div className="app__content">
           <Header info={info} handler={handleAddClick} />
           <Routes>
-            <Route path="*" element={<PageNotFound />} />
             <Route
               path="/"
               element={

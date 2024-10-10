@@ -8,6 +8,10 @@ This app is using React and Vite, as also API calls, to display the weather and 
 
 From new to old:
 
+- v2.5.2: Update README.md
+- v2.5.1: Implement Esc close for open popups
+- v2.5.0: fix "Need correcting" comments
+- v2.4.1: Fix project's submission issues - rename MainApp.jsx to Main.jsx
 - v2.4.0: final changes before submission
 - v2.3.2: Restructure components, modify index.html to be accorded to the app design
 - v2.3.1: create API mock local server, usie calls to the local server to display info on UI

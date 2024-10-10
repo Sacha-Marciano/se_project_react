@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 
 function AddItemModal({ selectedPopup, onClose, onAddItem }) {
@@ -19,9 +19,6 @@ function AddItemModal({ selectedPopup, onClose, onAddItem }) {
   const resetInputs = () => {
     setName("");
     setUrl("");
-    document
-      .getElementsByName("radio-button")
-      .forEach((item) => (item.checked = false)); //Get all radio buttons by ID and uncheck them
   };
 
   const _handleSubmit = (evt) => {

@@ -34,6 +34,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothesList, setClothesList] = useState([]);
+  const [lastId, setLastId] = useState("");
 
   //Functions up-lifted for components
   const handleAddClick = () => {
@@ -55,14 +56,15 @@ function App() {
   //Sends POST request to server and updates card's list
   const handleAddItemSubmit = (newName, newUrl, newType, resetInputs) => {
     const newCard = {
-      _id: clothesList[clothesList.length - 1]._id + 1,
+      _id: lastId + 1,
       name: newName,
       weather: newType,
       imageUrl: newUrl,
     };
     addServerItem(newCard)
       .then(() => {
-        setClothesList([...clothesList, newCard]);
+        setClothesList([newCard, ...clothesList]);
+        setLastId(newCard._id);
         closePopup();
         resetInputs();
       })
@@ -104,6 +106,7 @@ function App() {
     getServerItems()
       .then((data) => {
         setClothesList(data);
+        setLastId(data[data.length - 1]._id);
       })
       .catch((err) => {
         console.error(err);

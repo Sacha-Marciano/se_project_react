@@ -110,6 +110,22 @@ function App() {
       });
   }, []);
 
+  //Add event listener when mounting popup with "selectedPopup"
+  useEffect(() => {
+    if (!selectedPopup) return;
+    const handleEscClose = (evt) => {
+      if (evt.key === "Escape") {
+        closePopup();
+      }
+    };
+    document.addEventListener("keydown", handleEscClose);
+
+    //Remove event listener on unmounting
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, [selectedPopup]);
+
   return isLoading ? (
     <img className="app__loading" src={LoadingImage} alt="Loading image" />
   ) : (

@@ -19,6 +19,9 @@ function AddItemModal({ selectedPopup, onClose, onAddItem }) {
   const resetInputs = () => {
     setName("");
     setUrl("");
+    document
+      .getElementsByName("radio-button")
+      .forEach((item) => (item.checked = false)); //Get all radio buttons by ID and uncheck them
   };
 
   const _handleSubmit = (evt) => {
@@ -64,7 +67,7 @@ function AddItemModal({ selectedPopup, onClose, onAddItem }) {
           <input
             className="modal__input_type_radio"
             id="hot"
-            name="weather-type"
+            name="radio-button"
             type="radio"
             required
           />
@@ -74,7 +77,7 @@ function AddItemModal({ selectedPopup, onClose, onAddItem }) {
           <input
             className="modal__input_type_radio"
             id="warm"
-            name="weather-type"
+            name="radio-button"
             type="radio"
             required
           />
@@ -84,7 +87,7 @@ function AddItemModal({ selectedPopup, onClose, onAddItem }) {
           <input
             className="modal__input_type_radio"
             id="cold"
-            name="weather-type"
+            name="radio-button"
             type="radio"
             required
           />

@@ -76,8 +76,8 @@ const weatherConditions = [
 ];
 
 const position = {
-  latitude: 32.0853,
-  longitude: 34.781769,
+  latitude: -33.86882,
+  longitude: 151.20929,
 };
 
 const APIkey = "cf7194b2a2d732dd6e31ed6c404edd07";
@@ -90,13 +90,13 @@ export { APIkey, position, weatherConditions };
 // };
 
 // const positionNewYork = {
-//   latitude: 40.712776,
-//   longitude: -74.005974,
+// latitude: 40.712776,
+// longitude: -74.005974,
 // };
 
 // const positionSydney = {
-//   latitude: -33.86882,
-//   longitude: 151.20929,
+// latitude: -33.86882,
+// longitude: 151.20929,
 // };
 
 // const positionLondon = {

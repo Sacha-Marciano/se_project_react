@@ -1,14 +1,10 @@
+import { checkResponse } from "./api";
+
 const getInfo = ({ latitude, longitude }, APIkey) => {
   return fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`
   )
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Error: ${res.status}`);
-      }
-    })
+    .then(checkResponse)
     .then((data) => {
       const info = {};
       info.location = data.name;
@@ -34,7 +30,6 @@ const _getType = (temperature) => {
   } else {
     return "cold";
   }
-  //to change type comment if statement and return "type"
 };
 
 export default getInfo;

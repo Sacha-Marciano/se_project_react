@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 
-function AddItemModal({ selectedPopup, handler, onAddItem }) {
+function AddItemModal({ selectedPopup, onClose, onAddItem }) {
   const [name, setName] = useState("");
   const handleNameChange = (evt) => {
     setName(evt.target.value);
@@ -16,25 +16,23 @@ function AddItemModal({ selectedPopup, handler, onAddItem }) {
     setType(evt.target.id);
   };
 
-  const _resetInputs = () => {
+  const resetInputs = () => {
     setName("");
     setUrl("");
   };
 
   const _handleSubmit = (evt) => {
     evt.preventDefault();
-    onAddItem(name, url, type);
-    handler(); // close popup
-    _resetInputs();
-    evt.target.reset();
+    onAddItem(name, url, type, resetInputs);
   };
 
   return (
     <ModalWithForm
       title="New garnment"
-      closePopup={handler}
+      closePopup={onClose}
       isOpen={selectedPopup === "popup-add"}
       onSubmit={_handleSubmit}
+      buttonText="Add garnment"
     >
       <label className="modal__label">
         Name
@@ -60,7 +58,7 @@ function AddItemModal({ selectedPopup, handler, onAddItem }) {
           onChange={handleUrlChange}
         />
       </label>
-      <fieldset className="modal__fieldset" onClick={handleTypeChange}>
+      <fieldset className="modal__fieldset" onChange={handleTypeChange}>
         <legend className="modal__legend">Select the weather type:</legend>
         <label className="modal__label_type_radio">
           <input

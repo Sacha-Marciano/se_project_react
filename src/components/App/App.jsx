@@ -53,27 +53,38 @@ function App() {
   };
 
   //Sends POST request to server and updates card's list
-  const handleAddItemSubmit = (newName, newUrl, newType) => {
+  const handleAddItemSubmit = (newName, newUrl, newType, resetInputs) => {
     const newCard = {
-      _id: clothesList.length,
+      _id: clothesList.length + 1,
       name: newName,
       weather: newType,
       imageUrl: newUrl,
     };
-    addServerItem(newCard).then(setClothesList([newCard, ...clothesList]));
+    addServerItem(newCard)
+      .then(() => {
+        setClothesList([...clothesList, newCard]);
+        closePopup();
+        resetInputs();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   //Sends DELETE request to server and updates card's list
   const handleCardDelete = () => {
     deleteServerItem(selectedCard._id)
-      .then(
+      .then(() => {
         setClothesList(
           clothesList.filter((item) => {
             return item._id !== selectedCard._id;
           })
-        )
-      )
-      .finally(closePopup());
+        );
+        closePopup();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   //On start/refresh
@@ -90,9 +101,13 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getServerItems().then((data) => {
-      setClothesList(data);
-    });
+    getServerItems()
+      .then((data) => {
+        setClothesList(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   return isLoading ? (
@@ -130,7 +145,7 @@ function App() {
         </div>
         <AddItemModal
           selectedPopup={selectedPopup}
-          handler={closePopup}
+          onClose={closePopup}
           onAddItem={handleAddItemSubmit}
         />
         <ItemModal

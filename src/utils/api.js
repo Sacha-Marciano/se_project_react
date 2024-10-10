@@ -1,6 +1,6 @@
 const baseURL = "http://localhost:3001";
 
-const _checkResponse = (res) => {
+const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
   } else {
@@ -8,12 +8,16 @@ const _checkResponse = (res) => {
   }
 };
 
+const request = (url, options) => {
+  return fetch(`${baseURL}/${url}`, options).then(checkResponse);
+};
+
 const getServerItems = () => {
-  return fetch(`${baseURL}/items`).then(_checkResponse);
+  return request(`items`);
 };
 
 const addServerItem = (newCard) => {
-  return fetch(`${baseURL}/items`, {
+  return request(`items`, {
     method: "POST",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify({
@@ -22,13 +26,13 @@ const addServerItem = (newCard) => {
       imageUrl: newCard.imageUrl,
       weather: newCard.weather,
     }),
-  }).then(_checkResponse);
+  });
 };
 
 const deleteServerItem = (id) => {
-  return fetch(`${baseURL}/items/${id}`, {
+  return request(`items/${id}`, {
     method: "DELETE",
-  }).then(_checkResponse);
+  });
 };
 
-export { getServerItems, addServerItem, deleteServerItem };
+export { getServerItems, addServerItem, deleteServerItem, checkResponse };

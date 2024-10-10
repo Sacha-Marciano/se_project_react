@@ -55,7 +55,7 @@ function App() {
   //Sends POST request to server and updates card's list
   const handleAddItemSubmit = (newName, newUrl, newType, resetInputs) => {
     const newCard = {
-      _id: clothesList.length + 1,
+      _id: clothesList[clothesList.length - 1]._id + 1,
       name: newName,
       weather: newType,
       imageUrl: newUrl,

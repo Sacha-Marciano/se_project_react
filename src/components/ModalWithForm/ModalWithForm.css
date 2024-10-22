@@ -111,3 +111,12 @@
   margin-right: 11px;
   accent-color: #000;
 }
+
+.modal__button-alternate {
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  margin: 12px;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: bold;
+}

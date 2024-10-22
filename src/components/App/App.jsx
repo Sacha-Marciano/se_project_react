@@ -82,8 +82,8 @@ function App() {
       imageUrl: newUrl,
     };
     addServerItem(newCard)
-      .then(() => {
-        setClothesList([newCard, ...clothesList]);
+      .then((response) => {
+        setClothesList([response, ...clothesList]);
         closePopup();
         resetInputs();
       })
@@ -118,8 +118,10 @@ function App() {
       .then((user) => {
         setCurrentUser(user);
         setIsLoggedIn(true);
+        closePopup();
       })
       .catch((err) => {
+        window.alert("Incorrect Email or Password");
         console.log(err);
       });
   };
@@ -139,7 +141,6 @@ function App() {
 
   // Handle cards likes
   const handleCardLike = ({ id, isLiked }) => {
-    console.log(id);
     const token = localStorage.getItem("jwt");
     !isLiked
       ? addCardLike(id, token)
@@ -149,8 +150,7 @@ function App() {
             );
           })
           .catch((err) => console.log(err))
-      : // if not, send a request to remove the user's id from the card's likes array
-        removeCardLike(id, token)
+      : removeCardLike(id, token)
           .then((updatedCard) => {
             setClothesList((cards) =>
               cards.map((item) => (item._id === id ? updatedCard : item))
@@ -192,7 +192,7 @@ function App() {
         setIsLoggedIn(true);
       })
       .catch((err) => {
-        console.error(err);
+        console.error(`${err} - User is not logged in`);
       });
   }, []);
 
@@ -272,11 +272,13 @@ function App() {
           />
           <LoginModal
             selectedPopup={selectedPopup}
+            setSelectedPopup={setSelectedPopup}
             onClose={closePopup}
             handleLogin={handleLogin}
           ></LoginModal>
           <RegisterModal
             selectedPopup={selectedPopup}
+            setSelectedPopup={setSelectedPopup}
             onClose={closePopup}
             signUserUp={signUserUp}
             handleLogin={handleLogin}

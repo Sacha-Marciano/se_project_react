@@ -1,14 +1,8 @@
 import { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 
-function LoginModal({ selectedPopup, onClose, handleLogin }) {
+function LoginModal({ selectedPopup, setSelectedPopup, onClose, handleLogin }) {
   const [data, setData] = useState({ email: "", password: "" });
-
-  const _handleSubmit = (evt) => {
-    evt.preventDefault();
-    handleLogin(data);
-    onClose();
-  };
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
@@ -18,6 +12,17 @@ function LoginModal({ selectedPopup, onClose, handleLogin }) {
     }));
   };
 
+  const _handleSubmit = (evt) => {
+    evt.preventDefault();
+    handleLogin(data);
+    setData({ email: "", password: "" });
+  };
+
+  const handleRedirect = () => {
+    onClose();
+    setSelectedPopup("popup-register");
+  };
+
   return (
     <ModalWithForm
       title="Log in"
@@ -25,6 +30,8 @@ function LoginModal({ selectedPopup, onClose, handleLogin }) {
       isOpen={selectedPopup === "popup-login"}
       onSubmit={_handleSubmit}
       buttonText="Log in"
+      alternateOptionText="or Register"
+      alternateOptionHandler={handleRedirect}
     >
       <label className="modal__label">
         Email
@@ -32,7 +39,7 @@ function LoginModal({ selectedPopup, onClose, handleLogin }) {
           className="modal__input"
           id="email-login-id"
           placeholder="Email"
-          type="text"
+          type="email"
           required
           name="email"
           value={data.email}
@@ -45,7 +52,7 @@ function LoginModal({ selectedPopup, onClose, handleLogin }) {
           className="modal__input"
           id="password-login-id"
           placeholder="Password"
-          type="text"
+          type="password"
           required
           name="password"
           value={data.password}

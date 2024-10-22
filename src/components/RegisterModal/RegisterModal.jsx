@@ -1,21 +1,19 @@
 import { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 
-function RegisterModal({ selectedPopup, onClose, signUserUp, handleLogin }) {
+function RegisterModal({
+  selectedPopup,
+  setSelectedPopup,
+  onClose,
+  signUserUp,
+  handleLogin,
+}) {
   const [data, setData] = useState({
     email: "",
     password: "",
     name: "",
     avatar: "",
   });
-
-  const _handleSubmit = (evt) => {
-    evt.preventDefault();
-    signUserUp(data).then((response) => {
-      onClose();
-      handleLogin({ email: response.email, password: data.password });
-    });
-  };
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
@@ -25,6 +23,19 @@ function RegisterModal({ selectedPopup, onClose, signUserUp, handleLogin }) {
     }));
   };
 
+  const _handleSubmit = (evt) => {
+    evt.preventDefault();
+    signUserUp(data).then((response) => {
+      onClose();
+      handleLogin({ email: response.email, password: data.password });
+    });
+  };
+
+  const handleRedirect = () => {
+    onClose();
+    setSelectedPopup("popup-login");
+  };
+
   return (
     <ModalWithForm
       title="Sign up"
@@ -32,6 +43,8 @@ function RegisterModal({ selectedPopup, onClose, signUserUp, handleLogin }) {
       isOpen={selectedPopup === "popup-register"}
       onSubmit={_handleSubmit}
       buttonText="Next"
+      alternateOptionText="or Log in"
+      alternateOptionHandler={handleRedirect}
     >
       <label className="modal__label">
         Email*
@@ -54,6 +67,8 @@ function RegisterModal({ selectedPopup, onClose, signUserUp, handleLogin }) {
           placeholder="Password"
           type="password"
           required
+          minLength="4"
+          maxLength="30"
           name="password"
           value={data.password}
           onChange={handleChange}
@@ -67,6 +82,8 @@ function RegisterModal({ selectedPopup, onClose, signUserUp, handleLogin }) {
           placeholder="Name"
           type="text"
           required
+          minLength="2"
+          maxLength="30"
           name="name"
           value={data.name}
           onChange={handleChange}

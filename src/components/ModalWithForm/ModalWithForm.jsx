@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import "./ModalWithForm.css";
 
 function ModalWithForm({
@@ -7,6 +9,8 @@ function ModalWithForm({
   isOpen,
   onSubmit,
   buttonText,
+  alternateOptionText,
+  alternateOptionHandler,
 }) {
   return (
     <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
@@ -19,9 +23,22 @@ function ModalWithForm({
         />
         <form className="modal__form" onSubmit={onSubmit}>
           {children}
-          <button type="submit" className="modal__button_type_submit">
-            {buttonText}
-          </button>
+          <div className="modal__button-container">
+            <button type="submit" className="modal__button_type_submit">
+              {buttonText}
+            </button>
+            {alternateOptionText ? (
+              <button
+                type="button"
+                className="modal__button-alternate"
+                onClick={alternateOptionHandler}
+              >
+                {alternateOptionText}
+              </button>
+            ) : (
+              " "
+            )}
+          </div>
         </form>
       </div>
     </div>

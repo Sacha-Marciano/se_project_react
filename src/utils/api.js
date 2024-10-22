@@ -50,7 +50,7 @@ const updateUserData = (data) => {
 };
 
 const addCardLike = (id, token) => {
-  return request(`${id}/likes`, {
+  return request(`items/${id}/likes`, {
     method: "PUT",
     headers: {
       "Content-type": "application/json",
@@ -60,7 +60,7 @@ const addCardLike = (id, token) => {
 };
 
 const removeCardLike = (id, token) => {
-  return request(`${id}/likes`, {
+  return request(`items/${id}/likes`, {
     method: "DELETE",
     headers: {
       "Content-type": "application/json",

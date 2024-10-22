@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
@@ -11,12 +11,6 @@ function EditProfileModal({ selectedPopup, onClose, handleProfileUpdate }) {
     avatar: currentUser.avatar,
   });
 
-  const _handleSubmit = (evt) => {
-    evt.preventDefault();
-    handleProfileUpdate(data);
-    onClose();
-  };
-
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setData((prevData) => ({
@@ -24,11 +18,24 @@ function EditProfileModal({ selectedPopup, onClose, handleProfileUpdate }) {
       [name]: value,
     }));
   };
+
+  const _handleSubmit = (evt) => {
+    evt.preventDefault();
+    handleProfileUpdate(data);
+    onClose();
+  };
+
+  const isOpen = selectedPopup === "popup-update";
+
+  useEffect(() => {
+    setData({ name: currentUser.name, avatar: currentUser.avatar });
+  }, [isOpen]);
+
   return (
     <ModalWithForm
       title="Change profile data"
       closePopup={onClose}
-      isOpen={selectedPopup === "popup-update"}
+      isOpen={isOpen}
       onSubmit={_handleSubmit}
       buttonText="Save changes"
     >
@@ -38,8 +45,10 @@ function EditProfileModal({ selectedPopup, onClose, handleProfileUpdate }) {
           className="modal__input"
           id="name-update-id"
           type="text"
-          placeholder="name"
+          placeholder="Name"
           required
+          minLength="2"
+          maxLength="30"
           name="name"
           value={data.name}
           onChange={handleChange}

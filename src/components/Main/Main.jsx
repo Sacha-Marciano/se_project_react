@@ -6,7 +6,7 @@ import "./Main.css";
 import WeatherCard from "../WeatherCard/WeatherCard.jsx";
 import ItemCard from "../ItemCard/ItemCard.jsx";
 
-function Main({ info, handler, settingArray }) {
+function Main({ info, handler, onCardLike, settingArray }) {
   const currentTempUnit = useContext(
     CurrentTemperatureUnitContext
   ).currentTemperatureUnit;
@@ -24,7 +24,12 @@ function Main({ info, handler, settingArray }) {
           })
           .map((item) => {
             return (
-              <ItemCard key={item._id} item={item} onCardClick={handler} />
+              <ItemCard
+                key={item._id}
+                item={item}
+                onCardClick={handler}
+                onCardLike={onCardLike}
+              />
             );
           })}
       </ul>

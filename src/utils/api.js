@@ -19,9 +19,11 @@ const getServerItems = () => {
 const addServerItem = (newCard) => {
   return request(`items`, {
     method: "POST",
-    headers: { "Content-type": "application/json" },
+    headers: {
+      "Content-type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("jwt")}`,
+    },
     body: JSON.stringify({
-      _id: newCard._id,
       name: newCard.name,
       imageUrl: newCard.imageUrl,
       weather: newCard.weather,
@@ -32,7 +34,47 @@ const addServerItem = (newCard) => {
 const deleteServerItem = (id) => {
   return request(`items/${id}`, {
     method: "DELETE",
+    headers: { authorization: `Bearer ${localStorage.getItem("jwt")}` },
   });
 };
 
-export { getServerItems, addServerItem, deleteServerItem, checkResponse };
+const updateUserData = (data) => {
+  return request(`users/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("jwt")}`,
+    },
+    body: JSON.stringify(data),
+  });
+};
+
+const addCardLike = (id, token) => {
+  return request(`${id}/likes`, {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const removeCardLike = (id, token) => {
+  return request(`${id}/likes`, {
+    method: "DELETE",
+    headers: {
+      "Content-type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export {
+  getServerItems,
+  addServerItem,
+  deleteServerItem,
+  checkResponse,
+  updateUserData,
+  addCardLike,
+  removeCardLike,
+};

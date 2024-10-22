@@ -1,6 +1,6 @@
 //import React properties
 import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 //import styles
 import "./App.css";
@@ -13,9 +13,17 @@ import Footer from "../Footer/Footer.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
 import Profile from "../Profile/Profile.jsx";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
+import LoginModal from "../LoginModal/LoginModal.jsx";
+import RegisterModal from "../RegisterModal/RegisterModal.jsx";
+import EditProfileModal from "../EditProfileModal/EditProfileModal.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
 //Import context
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext.js";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+
+// Import authentication functions
+import { signUserIn, signUserUp, getUserByToken } from "../../utils/auth.js";
 
 //Other imports
 import { position, APIkey } from "../../utils/constants.js"; //For WeatherApi call
@@ -24,6 +32,9 @@ import {
   getServerItems,
   addServerItem,
   deleteServerItem,
+  updateUserData,
+  addCardLike,
+  removeCardLike,
 } from "../../utils/api.js"; //API calls to local server
 
 function App() {
@@ -34,7 +45,8 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothesList, setClothesList] = useState([]);
-  const [lastId, setLastId] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
 
   //Functions up-lifted for components
   const handleAddClick = () => {
@@ -43,6 +55,15 @@ function App() {
   const handleCardClick = (card) => {
     setSelectedPopup("popup-card");
     setSelectedCard(card);
+  };
+  const handleRegisterClick = () => {
+    setSelectedPopup("popup-register");
+  };
+  const handleLoginClick = () => {
+    setSelectedPopup("popup-login");
+  };
+  const handleUpdateClick = () => {
+    setSelectedPopup("popup-update");
   };
   const closePopup = () => {
     setSelectedPopup("");
@@ -56,7 +77,6 @@ function App() {
   //Sends POST request to server and updates card's list
   const handleAddItemSubmit = (newName, newUrl, newType, resetInputs) => {
     const newCard = {
-      _id: lastId + 1,
       name: newName,
       weather: newType,
       imageUrl: newUrl,
@@ -64,7 +84,6 @@ function App() {
     addServerItem(newCard)
       .then(() => {
         setClothesList([newCard, ...clothesList]);
-        setLastId(newCard._id);
         closePopup();
         resetInputs();
       })
@@ -89,6 +108,57 @@ function App() {
       });
   };
 
+  //Checks if login is succesfull and add token to local storage
+  const handleLogin = (data) => {
+    signUserIn(data)
+      .then((response) => {
+        localStorage.setItem("jwt", response.token);
+        return getUserByToken(localStorage.getItem("jwt"));
+      })
+      .then((user) => {
+        setCurrentUser(user);
+        setIsLoggedIn(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  //Removes the token from local storage on log out
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+  };
+
+  // Update profile on server and on display
+  const handleProfileUpdate = (data) => {
+    updateUserData(data).then((response) => {
+      setCurrentUser(response);
+    });
+  };
+
+  // Handle cards likes
+  const handleCardLike = ({ id, isLiked }) => {
+    console.log(id);
+    const token = localStorage.getItem("jwt");
+    !isLiked
+      ? addCardLike(id, token)
+          .then((updatedCard) => {
+            setClothesList((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item))
+            );
+          })
+          .catch((err) => console.log(err))
+      : // if not, send a request to remove the user's id from the card's likes array
+        removeCardLike(id, token)
+          .then((updatedCard) => {
+            setClothesList((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item))
+            );
+          })
+          .catch((err) => console.log(err));
+  };
+
   //On start/refresh
   useEffect(() => {
     setLoading(true);
@@ -106,7 +176,20 @@ function App() {
     getServerItems()
       .then((data) => {
         setClothesList(data);
-        setLastId(data[data.length - 1]._id);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    getUserByToken(localStorage.getItem("jwt"))
+      .then((response) => {
+        if (!response) {
+          <Navigate to="/" />;
+        }
+        setCurrentUser(response);
+        setIsLoggedIn(true);
       })
       .catch((err) => {
         console.error(err);
@@ -132,49 +215,80 @@ function App() {
   return isLoading ? (
     <img className="app__loading" src={LoadingImage} alt="Loading image" />
   ) : (
-    <CurrentTemperatureUnitContext.Provider
-      value={{ currentTemperatureUnit, handleToggleSwitchChange }}
-    >
-      <div className="app__container">
-        <div className="app__content">
-          <Header info={info} handler={handleAddClick} />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Main
-                  info={info}
-                  handler={handleCardClick}
-                  settingArray={clothesList}
-                />
-              }
+    <CurrentUserContext.Provider value={currentUser}>
+      <CurrentTemperatureUnitContext.Provider
+        value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+      >
+        <div className="app__container">
+          <div className="app__content">
+            <Header
+              info={info}
+              handler={handleAddClick}
+              isLoggedIn={isLoggedIn}
+              handleRegisterClick={handleRegisterClick}
+              handleLoginClick={handleLoginClick}
             />
-            <Route
-              path="/profile"
-              element={
-                <Profile
-                  settingArray={clothesList}
-                  handler={handleCardClick}
-                  onClick={handleAddClick}
-                />
-              }
-            />
-          </Routes>
-          <Footer />
+            <Routes>
+              <Route path="*" element={<Navigate to="/" />} />
+              <Route
+                path="/"
+                element={
+                  <Main
+                    info={info}
+                    handler={handleCardClick}
+                    onCardLike={handleCardLike}
+                    settingArray={clothesList}
+                  />
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute isLoggedIn={isLoggedIn}>
+                    <Profile
+                      settingArray={clothesList}
+                      handler={handleCardClick}
+                      onClick={handleAddClick}
+                      handleUpdateClick={handleUpdateClick}
+                      handleLogout={handleLogout}
+                      onCardLike={handleCardLike}
+                    />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+            <Footer />
+          </div>
+          <AddItemModal
+            selectedPopup={selectedPopup}
+            onClose={closePopup}
+            onAddItem={handleAddItemSubmit}
+          />
+          <ItemModal
+            isOpen={selectedPopup === "popup-card"}
+            selectedCard={selectedCard}
+            closePopup={closePopup}
+            deleteCard={handleCardDelete}
+          />
+          <LoginModal
+            selectedPopup={selectedPopup}
+            onClose={closePopup}
+            handleLogin={handleLogin}
+          ></LoginModal>
+          <RegisterModal
+            selectedPopup={selectedPopup}
+            onClose={closePopup}
+            signUserUp={signUserUp}
+            handleLogin={handleLogin}
+          ></RegisterModal>
+          <EditProfileModal
+            selectedPopup={selectedPopup}
+            onClose={closePopup}
+            handleProfileUpdate={handleProfileUpdate}
+          ></EditProfileModal>
         </div>
-        <AddItemModal
-          selectedPopup={selectedPopup}
-          onClose={closePopup}
-          onAddItem={handleAddItemSubmit}
-        />
-        <ItemModal
-          isOpen={selectedPopup === "popup-card"}
-          selectedCard={selectedCard}
-          closePopup={closePopup}
-          deleteCard={handleCardDelete}
-        />
-      </div>
-    </CurrentTemperatureUnitContext.Provider>
+      </CurrentTemperatureUnitContext.Provider>
+    </CurrentUserContext.Provider>
   );
 }
 

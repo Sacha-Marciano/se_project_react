@@ -60,6 +60,10 @@
   right: 32px;
 }
 
+.modal-item__delete_hidden {
+  visibility: hidden;
+}
+
 @media screen and (max-width: 505px) {
   .modal-item__image {
     border-radius: 15px;

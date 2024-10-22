@@ -20,7 +20,7 @@
   margin: 0 auto 0 0;
 }
 
-.header__add-button {
+.header__button {
   border: none;
   background-color: transparent;
   padding: 0;
@@ -31,7 +31,7 @@
   transition: opacity linear 0.2s;
 }
 
-.header__add-button:hover {
+.header__button:hover {
   opacity: 0.5;
 }
 
@@ -55,11 +55,17 @@
 .header__avatar {
   width: 40px;
   height: 40px;
+  border-radius: 50%;
 }
 
 .header__link {
   text-decoration: none;
   color: #000;
+}
+
+.header__auth-container {
+  display: flex;
+  gap: 20px;
 }
 
 @media screen and (max-width: 885px) {

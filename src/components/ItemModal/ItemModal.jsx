@@ -1,6 +1,16 @@
+import { useContext } from "react";
+
 import "./ItemModal.css";
 
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+
 function ItemModal({ isOpen, selectedCard, closePopup, deleteCard }) {
+  const isOwn = selectedCard.owner === useContext(CurrentUserContext)._id;
+
+  const itemDeleteButtonClassName = `modal-item__delete ${
+    isOwn ? "modal-item__delete_visible" : "modal-item__delete_hidden"
+  }`;
+
   return (
     <div className={`modal  ${isOpen ? "modal_opened" : ""}`}>
       <div className="modal-item__content">
@@ -20,7 +30,7 @@ function ItemModal({ isOpen, selectedCard, closePopup, deleteCard }) {
             Weather: {selectedCard.weather}
           </p>
           <button
-            className="modal-item__delete"
+            className={itemDeleteButtonClassName}
             type="button"
             onClick={deleteCard}
           >

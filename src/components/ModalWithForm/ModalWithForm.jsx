@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 import "./ModalWithForm.css";
 
 function ModalWithForm({
@@ -11,6 +9,7 @@ function ModalWithForm({
   buttonText,
   alternateOptionText,
   alternateOptionHandler,
+  validationError,
 }) {
   return (
     <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
@@ -23,6 +22,13 @@ function ModalWithForm({
         />
         <form className="modal__form" onSubmit={onSubmit}>
           {children}
+          {validationError ? (
+            <span className="modal__form_error-span">
+              Wrong email or password
+            </span>
+          ) : (
+            " "
+          )}
           <div className="modal__button-container">
             <button type="submit" className="modal__button_type_submit">
               {buttonText}

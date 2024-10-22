@@ -1,7 +1,14 @@
 import { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 
-function LoginModal({ selectedPopup, setSelectedPopup, onClose, handleLogin }) {
+function LoginModal({
+  selectedPopup,
+  setSelectedPopup,
+  onClose,
+  handleLogin,
+  validationError,
+  setValidationError,
+}) {
   const [data, setData] = useState({ email: "", password: "" });
 
   const handleChange = (evt) => {
@@ -10,6 +17,7 @@ function LoginModal({ selectedPopup, setSelectedPopup, onClose, handleLogin }) {
       ...prevData,
       [name]: value,
     }));
+    setValidationError(false);
   };
 
   const _handleSubmit = (evt) => {
@@ -32,6 +40,7 @@ function LoginModal({ selectedPopup, setSelectedPopup, onClose, handleLogin }) {
       buttonText="Log in"
       alternateOptionText="or Register"
       alternateOptionHandler={handleRedirect}
+      validationError={validationError}
     >
       <label className="modal__label">
         Email

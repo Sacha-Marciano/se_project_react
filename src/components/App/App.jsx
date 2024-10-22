@@ -47,6 +47,7 @@ function App() {
   const [clothesList, setClothesList] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const [validationError, setValidationError] = useState(false);
 
   //Functions up-lifted for components
   const handleAddClick = () => {
@@ -121,7 +122,7 @@ function App() {
         closePopup();
       })
       .catch((err) => {
-        window.alert("Incorrect Email or Password");
+        setValidationError(true);
         console.log(err);
       });
   };
@@ -275,6 +276,8 @@ function App() {
             setSelectedPopup={setSelectedPopup}
             onClose={closePopup}
             handleLogin={handleLogin}
+            validationError={validationError}
+            setValidationError={setValidationError}
           ></LoginModal>
           <RegisterModal
             selectedPopup={selectedPopup}

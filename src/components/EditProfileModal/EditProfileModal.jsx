@@ -4,7 +4,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function EditProfileModal({ selectedPopup, onClose, handleProfileUpdate }) {
+function EditProfileModal({ isOpen, onClose, handleProfileUpdate }) {
   const currentUser = useContext(CurrentUserContext);
   const [data, setData] = useState({
     name: currentUser.name,
@@ -22,13 +22,13 @@ function EditProfileModal({ selectedPopup, onClose, handleProfileUpdate }) {
   const _handleSubmit = (evt) => {
     evt.preventDefault();
     handleProfileUpdate(data);
-    onClose();
   };
 
-  const isOpen = selectedPopup === "popup-update";
-
   useEffect(() => {
-    setData({ name: currentUser.name, avatar: currentUser.avatar });
+    setData({
+      name: currentUser.name,
+      avatar: currentUser.avatar,
+    });
   }, [isOpen]);
 
   return (

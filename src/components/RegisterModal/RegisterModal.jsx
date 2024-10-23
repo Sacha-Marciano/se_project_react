@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 
 function RegisterModal({
-  selectedPopup,
+  isOpen,
   setSelectedPopup,
   onClose,
-  signUserUp,
-  handleLogin,
+  handleSignUserUp,
 }) {
   const [data, setData] = useState({
     email: "",
@@ -25,10 +24,7 @@ function RegisterModal({
 
   const _handleSubmit = (evt) => {
     evt.preventDefault();
-    signUserUp(data).then((response) => {
-      onClose();
-      handleLogin({ email: response.email, password: data.password });
-    });
+    handleSignUserUp(data);
   };
 
   const handleRedirect = () => {
@@ -36,11 +32,20 @@ function RegisterModal({
     setSelectedPopup("popup-login");
   };
 
+  useEffect(() => {
+    setData({
+      email: "",
+      password: "",
+      name: "",
+      avatar: "",
+    });
+  }, [isOpen]);
+
   return (
     <ModalWithForm
       title="Sign up"
       closePopup={onClose}
-      isOpen={selectedPopup === "popup-register"}
+      isOpen={isOpen}
       onSubmit={_handleSubmit}
       buttonText="Next"
       alternateOptionText="or Log in"

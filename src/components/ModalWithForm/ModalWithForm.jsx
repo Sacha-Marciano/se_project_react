@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import "./ModalWithForm.css";
 
 function ModalWithForm({
@@ -11,6 +13,8 @@ function ModalWithForm({
   alternateOptionHandler,
   validationError,
 }) {
+  const formRef = useRef();
+
   return (
     <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
       <div className="modal__content">
@@ -20,7 +24,7 @@ function ModalWithForm({
           type="button"
           onClick={closePopup}
         />
-        <form className="modal__form" onSubmit={onSubmit}>
+        <form className="modal__form" onSubmit={onSubmit} ref={formRef}>
           {children}
           {validationError ? (
             <span className="modal__form_error-span">

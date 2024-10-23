@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 
-function AddItemModal({ selectedPopup, onClose, onAddItem }) {
+function AddItemModal({ isOpen, onClose, onAddItem }) {
   const [name, setName] = useState("");
   const handleNameChange = (evt) => {
     setName(evt.target.value);
@@ -23,14 +23,18 @@ function AddItemModal({ selectedPopup, onClose, onAddItem }) {
 
   const _handleSubmit = (evt) => {
     evt.preventDefault();
-    onAddItem(name, url, type, resetInputs);
+    onAddItem(name, url, type);
   };
+
+  useEffect(() => {
+    resetInputs();
+  }, [isOpen]);
 
   return (
     <ModalWithForm
       title="New garnment"
       closePopup={onClose}
-      isOpen={selectedPopup === "popup-add"}
+      isOpen={isOpen}
       onSubmit={_handleSubmit}
       buttonText="Add garnment"
     >
@@ -42,6 +46,7 @@ function AddItemModal({ selectedPopup, onClose, onAddItem }) {
           placeholder="Name"
           type="text"
           required
+          minLength="2"
           value={name}
           onChange={handleNameChange}
         />

@@ -16,7 +16,7 @@ import AddItemModal from "../AddItemModal/AddItemModal.jsx";
 import LoginModal from "../LoginModal/LoginModal.jsx";
 import RegisterModal from "../RegisterModal/RegisterModal.jsx";
 import EditProfileModal from "../EditProfileModal/EditProfileModal.jsx";
-import ProtectedRoute from "./ProtectedRoute.jsx";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.jsx";
 
 //Import context
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext.js";
@@ -76,7 +76,7 @@ function App() {
   };
 
   //Sends POST request to server and updates card's list
-  const handleAddItemSubmit = (newName, newUrl, newType, resetInputs) => {
+  const handleAddItemSubmit = (newName, newUrl, newType) => {
     const newCard = {
       name: newName,
       weather: newType,
@@ -86,7 +86,6 @@ function App() {
       .then((response) => {
         setClothesList([response, ...clothesList]);
         closePopup();
-        resetInputs();
       })
       .catch((err) => {
         console.error(err);
@@ -102,6 +101,18 @@ function App() {
             return item._id !== selectedCard._id;
           })
         );
+        closePopup();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  //Check if data is valid and add a user to server then log user in
+  const handleSignUp = (data) => {
+    signUserUp(data)
+      .then(() => {
+        handleLogin(data);
         closePopup();
       })
       .catch((err) => {
@@ -135,9 +146,14 @@ function App() {
 
   // Update profile on server and on display
   const handleProfileUpdate = (data) => {
-    updateUserData(data).then((response) => {
-      setCurrentUser(response);
-    });
+    updateUserData(data)
+      .then((response) => {
+        setCurrentUser(response);
+        closePopup();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   // Handle cards likes
@@ -261,7 +277,7 @@ function App() {
             <Footer />
           </div>
           <AddItemModal
-            selectedPopup={selectedPopup}
+            isOpen={selectedPopup === "popup-add"}
             onClose={closePopup}
             onAddItem={handleAddItemSubmit}
           />
@@ -272,7 +288,7 @@ function App() {
             deleteCard={handleCardDelete}
           />
           <LoginModal
-            selectedPopup={selectedPopup}
+            isOpen={selectedPopup === "popup-login"}
             setSelectedPopup={setSelectedPopup}
             onClose={closePopup}
             handleLogin={handleLogin}
@@ -280,14 +296,13 @@ function App() {
             setValidationError={setValidationError}
           ></LoginModal>
           <RegisterModal
-            selectedPopup={selectedPopup}
+            isOpen={selectedPopup === "popup-register"}
             setSelectedPopup={setSelectedPopup}
             onClose={closePopup}
-            signUserUp={signUserUp}
-            handleLogin={handleLogin}
+            handleSignUserUp={handleSignUp}
           ></RegisterModal>
           <EditProfileModal
-            selectedPopup={selectedPopup}
+            isOpen={selectedPopup === "popup-update"}
             onClose={closePopup}
             handleProfileUpdate={handleProfileUpdate}
           ></EditProfileModal>

@@ -46,7 +46,7 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothesList, setClothesList] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({ name: "", avatar: "" });
   const [validationError, setValidationError] = useState(false);
 
   //Functions up-lifted for components

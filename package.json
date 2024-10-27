@@ -1,16 +1,15 @@
 {
+  "homepage": "https://wtwr-app.twilightparadox.com",
   "name": "se_project_react",
   "private": true,
   "version": "0.0.0",
-  "homepage": "wtwr-app.twilightparadox.com",
   "type": "module",
   "scripts": {
-    "dev": "vite --open",
     "build": "vite build",
+    "deploy": "npm run build && scp -r ./dist/* momarciano26@wtwr-app.twilightparadox.com:/home/momarciano26/frontend",
+    "dev": "vite --open",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "predploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",

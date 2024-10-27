@@ -2,6 +2,7 @@
   "name": "se_project_react",
   "private": true,
   "version": "0.0.0",
+  "homepage": "wtwr-app.twilightparadox.com",
   "type": "module",
   "scripts": {
     "dev": "vite --open",

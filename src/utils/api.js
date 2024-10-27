@@ -1,4 +1,7 @@
-const baseURL = "http://localhost:3001";
+const baseURL =
+  process.env.NODE__ENV === "production"
+    ? "https://wtwr-app.twilightparadox.com"
+    : "http://localhost:3001";
 
 const checkResponse = (res) => {
   if (res.ok) {

@@ -2,6 +2,7 @@
 
 This code is the front-end of the WTWR app. The app shows a weather card depending on the temperature of the location of the user and shows compatible clothes to wear for the weather.
 It communicates with WeatherAPI and a customized database via a local server.
+Website link: https://watowear.jumpingcrab.com
 Repo of the local server: https://github.com/Sacha-Marciano/se_project_express
 
 ## Technical Description
@@ -12,6 +13,13 @@ This app is using React and Vite, as also API calls, to display the weather and 
 
 From new to old:
 
+- v4.1.2: README update
+- v4.1.1: Fix after failed connections
+- v4.1.0: Change base URL
+- v4.0.0: upload to server
+- v3.2.0: Fix variables default values
+- v3.1.0: Include email and password validation
+- v3.0.0: Connect to back-end
 - v2.5.2: Update README.md
 - v2.5.1: Implement Esc close for open popups
 - v2.5.0: fix "Need correcting" comments

@@ -20,7 +20,11 @@ function WeatherCard({ info }) {
       <p className="weather-card__temp">{info.temp[currentTempUnit]}</p>
       <img
         className="weather-card__image"
-        src={actualCondition[0].src}
+        src={
+          actualCondition.length > 0
+            ? actualCondition[0].src
+            : weatherConditions[0].src
+        }
         alt="Weather card"
       />
     </section>

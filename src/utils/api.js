@@ -1,6 +1,6 @@
 const baseURL =
-  process.env.NODE__ENV === "production"
-    ? "https://api.wtwr-app.twilightparadox.com"
+  process.env.NODE_ENV === "production"
+    ? "https://api.watowear.jumpingcrab.com"
     : "http://localhost:3001";
 
 const checkResponse = (res) => {

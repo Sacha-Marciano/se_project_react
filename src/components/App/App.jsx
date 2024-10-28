@@ -112,7 +112,7 @@ function App() {
   const handleSignUp = (data) => {
     signUserUp(data)
       .then(() => {
-        handleLogin(data);
+        handleLogin({ email: data.email, password: data.password });
         closePopup();
       })
       .catch((err) => {

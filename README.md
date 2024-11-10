@@ -2,8 +2,8 @@
 
 This code is the front-end of the WTWR app. The app shows a weather card depending on the temperature of the location of the user and shows compatible clothes to wear for the weather.
 It communicates with WeatherAPI and a customized database via a local server.
-Website link: https://watowear.jumpingcrab.com
-Repo of the local server: https://github.com/Sacha-Marciano/se_project_express
+Website link: [https://watowear.jumpingcrab.com]
+Repo of the local server: [https://github.com/Sacha-Marciano/se_project_express]
 
 ## Technical Description
 

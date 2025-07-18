@@ -13,10 +13,10 @@ function EditProfileModal({ isOpen, onClose, handleProfileUpdate }) {
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
-    setData((prevData) => ({
-      ...prevData,
+    setData({
+      ...data,
       [name]: value,
-    }));
+    });
   };
 
   const _handleSubmit = (evt) => {

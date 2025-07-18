@@ -2,33 +2,51 @@ import { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 
 function AddItemModal({ isOpen, onClose, onAddItem }) {
-  const [name, setName] = useState("");
-  const handleNameChange = (evt) => {
-    setName(evt.target.value);
-  };
-  const [url, setUrl] = useState("");
-  const handleUrlChange = (evt) => {
-    setUrl(evt.target.value);
-  };
+  const [data, setData] = useState({
+    name: "",
+    url: "",
+    type: "",
+  });
 
-  const [type, setType] = useState("");
-  const handleTypeChange = (evt) => {
-    setType(evt.target.id);
-  };
-
-  const resetInputs = () => {
-    setName("");
-    setUrl("");
-  };
-
-  const _handleSubmit = (evt) => {
-    evt.preventDefault();
-    onAddItem(name, url, type);
+  const handleChange = (evt) => {
+    const { name, value } = evt.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
   };
 
   useEffect(() => {
-    resetInputs();
-  }, [isOpen]);
+    console.log(data);
+  }, [data]);
+
+  // const [name, setName] = useState("");
+  // const handleNameChange = (evt) => {
+  //   setName(evt.target.value);
+  // };
+  // const [url, setUrl] = useState("");
+  // const handleUrlChange = (evt) => {
+  //   setUrl(evt.target.value);
+  // };
+
+  // const [type, setType] = useState("");
+  // const handleTypeChange = (evt) => {
+  //   setType(evt.target.id);
+  // };
+
+  // const resetInputs = () => {
+  //   setName("");
+  //   setUrl("");
+  // };
+
+  const _handleSubmit = (evt) => {
+    evt.preventDefault();
+    onAddItem(data.name, data.url, data.type);
+  };
+
+  // useEffect(() => {
+  //   resetInputs();
+  // }, [isOpen]);
 
   return (
     <ModalWithForm
@@ -47,8 +65,9 @@ function AddItemModal({ isOpen, onClose, onAddItem }) {
           type="text"
           required
           minLength="2"
-          value={name}
-          onChange={handleNameChange}
+          name="name"
+          value={data.name}
+          onChange={handleChange}
         />
       </label>
       <label className="modal__label">
@@ -59,19 +78,21 @@ function AddItemModal({ isOpen, onClose, onAddItem }) {
           placeholder="Image Url"
           type="url"
           required
-          value={url}
-          onChange={handleUrlChange}
+          name="url"
+          value={data.url}
+          onChange={handleChange}
         />
       </label>
-      <fieldset className="modal__fieldset" onChange={handleTypeChange}>
+      <fieldset className="modal__fieldset" onChange={handleChange}>
         <legend className="modal__legend">Select the weather type:</legend>
         <label className="modal__label_type_radio">
           <input
             className="modal__input_type_radio"
             id="hot"
-            name="radio-button"
+            name="type"
             type="radio"
             required
+            value="hot"
           />
           Hot
         </label>
@@ -79,9 +100,10 @@ function AddItemModal({ isOpen, onClose, onAddItem }) {
           <input
             className="modal__input_type_radio"
             id="warm"
-            name="radio-button"
+            name="type"
             type="radio"
             required
+            value="warm"
           />
           Warm
         </label>
@@ -89,9 +111,10 @@ function AddItemModal({ isOpen, onClose, onAddItem }) {
           <input
             className="modal__input_type_radio"
             id="cold"
-            name="radio-button"
+            name="type"
             type="radio"
             required
+            value="cold"
           />
           Cold
         </label>
